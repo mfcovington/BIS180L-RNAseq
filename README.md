@@ -39,7 +39,7 @@ You'll notice that we are assigning long file names and frequently used ID value
 Build index of FASTA reference file before mapping:
 
 ```sh
-FA=TAIR10_cdna_20110103_representative_gene_model_updated
+FA=TAIR10_cdna_20110103_representative_gene_model_updated.fa
 bwa index $FA
 ```
 
@@ -149,7 +149,7 @@ How does the TAIR10 CDS reference differ from the TAIR10 cDNA reference? How doe
 Mapping multiple FASTQ files and subsequent read counting can be automated as in this example:
 
 ```sh
-FA=TAIR10_cdna_20110103_representative_gene_model_updated
+FA=TAIR10_cdna_20110103_representative_gene_model_updated.fa
 for ID in sample1 sample2 sample3 sample4; do
     bwa index $FA
     bwa aln $FA $ID.fq > $ID.sai
