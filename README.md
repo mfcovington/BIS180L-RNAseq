@@ -28,7 +28,7 @@ Documentation for tools used for mapping reads and visualizing alignments can be
 - BWA: <http://bio-bwa.sourceforge.net/bwa.shtml>
 - Samtools: <http://samtools.sourceforge.net/samtools.shtml>
 
-## Excercises
+## Exercises
 
 #### Mapping reads to an indexed reference
 
