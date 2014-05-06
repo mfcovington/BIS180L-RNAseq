@@ -24,6 +24,7 @@ while (<$header_fh>) {
 
 my %counts;
 my @samples;
+my %counts_per_sample;
 for my $file (@bam_files) {
     say "Processing $file";
     my $sample_id = fileparse $file, ".bam";
@@ -31,6 +32,12 @@ for my $file (@bam_files) {
     open my $bam_fh, "-|", "samtools view $file";
     while (my $read = <$bam_fh>) {
         my $seqid = (split /\t/, $read)[2];
+        if ( $seqid eq '*' ) {
+            $counts_per_sample{$sample_id}{unmapped}++;
+        }
+        else {
+            $counts_per_sample{$sample_id}{mapped}++;
+        }
         $counts{$seqid}{$sample_id}++;
     }
 }
@@ -43,3 +50,16 @@ for my $seqid (sort @header) {
     say $out_fh join "\t", $seqid, @seqid_counts;
 }
 close $out_fh;
+
+say "\n", "-" x 80;
+say "Mapping Summary:";
+# say 'SampleID: ReadsMapped / TotalReads (PercentMapped)';
+for  my $sample_id ( @samples ) {
+    my $mapped = $counts_per_sample{$sample_id}{mapped} // 0;
+    my $unmapped = $counts_per_sample{$sample_id}{unmapped} // 0;
+    my $total = $mapped + $unmapped;
+    my $percent = sprintf "%.1f%%", 100 * $mapped / $total;
+    say "$sample_id: $mapped / $total ($percent)";
+
+}
+say "-" x 80, "\n";
